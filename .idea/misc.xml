@@ -1,0 +1,21 @@
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/server/api-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/server/de-po-service/pom.xml" />
+        <option value="$PROJECT_DIR$/server/eureka-discovery-server/pom.xml" />
+        <option value="$PROJECT_DIR$/server/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/api-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/de-po-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/eureka-discovery-server/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/user-service/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_20" project-jdk-name="20" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

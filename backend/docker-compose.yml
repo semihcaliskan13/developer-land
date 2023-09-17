@@ -1,0 +1,105 @@
+version: "3.8"
+services:
+  mysqldb:
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    image: "mysql:8.0.33"
+    restart: unless-stopped
+    environment:
+      "MYSQL_USER": admin
+      "MYSQL_ROOT_PASSWORD": 1122
+      "MYSQL_DATABASE": depo
+      "MYSQL_PASSWORD": 1122
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+  de-po-service:
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+      eureka-service:
+        condition: service_healthy
+    build: /de-po-service
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/depo?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 1122
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+      SPRING_APPLICATION_NAME: DE-PO-SERVICE
+  eureka-service:
+    build: /eureka-discovery-server
+    restart: always
+    healthcheck:
+      test: curl --fail http://localhost:8761 || exit 1
+      interval: 4s
+      timeout: 2s
+      retries: 3
+    ports:
+      - "8761:8761"
+  user-service:
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+      eureka-service:
+        condition: service_healthy
+
+    build: /user-service
+    restart: always
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/depo?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 1122
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+      SPRING_APPLICATION_NAME: USER-SERVICE
+  api-gateway:
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+      eureka-service:
+        condition: service_healthy
+    build: /api-gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/depo?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 1122
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+      SPRING_APPLICATION_NAME: API-GATEWAY
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+
+
+  mongodb-Cont:
+    image: mongo:latest
+    container_name: depoMongoDb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1122
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data_cont:/data/db
+volumes:
+  db:
