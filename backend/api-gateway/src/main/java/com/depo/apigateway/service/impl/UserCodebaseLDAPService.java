@@ -41,6 +41,11 @@ public class UserCodebaseLDAPService implements UserCodeBaseService {
     }
 
     @Override
+    public List<UserCodebase> getAllByUserIdAndIsResponsible(String userId, boolean isResponsible) {
+        return null;
+    }
+
+    @Override
     public void updateAll(List<UserCodebase> userCodebases) {
         throw new ResourceNotFoundException();
     }
