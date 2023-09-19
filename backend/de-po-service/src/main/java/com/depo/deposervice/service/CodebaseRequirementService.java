@@ -14,6 +14,8 @@ public interface CodebaseRequirementService {
 
     void updateAll(List<CodebaseRequirement> codebaseRequirements);
 
+    void save(CodebaseRequirement codebaseRequirement);
+
     void deleteAllByCodeBaseId(String codebaseId);
 
     void deleteAllByRequirementId(String requirementId);

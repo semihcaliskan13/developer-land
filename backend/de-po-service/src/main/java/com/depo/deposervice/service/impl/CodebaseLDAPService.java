@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -76,7 +78,7 @@ public class CodebaseLDAPService implements CodebaseService {
 
     private Codebase getCodebase(CodebaseEntry codebaseEntry) {
         Codebase codebase = CodebaseMapper.INSTANCE.codebaseEntryToCodebase(codebaseEntry);
-        String projectId = stringUtil.getAttributeByDescriptions(codebaseEntry.getDescription(), "project");
+        String projectId = stringUtil.getAttributeByDescriptions(List.of(codebaseEntry.getDescription()), "project");
         codebase.setName(codebase.getName().replace("svn_", ""));
 
         if (projectId != null) {
