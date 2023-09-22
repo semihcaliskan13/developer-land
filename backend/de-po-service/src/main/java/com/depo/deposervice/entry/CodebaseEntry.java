@@ -27,5 +27,5 @@ public final class CodebaseEntry {
     private String name;
 
     @Attribute(name = "description")
-    private List<String> description;
+    private String description;
 }

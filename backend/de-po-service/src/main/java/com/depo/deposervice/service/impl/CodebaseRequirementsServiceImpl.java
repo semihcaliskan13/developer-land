@@ -43,6 +43,11 @@ public class CodebaseRequirementsServiceImpl implements CodebaseRequirementServi
     }
 
     @Override
+    public void save(CodebaseRequirement codebaseRequirement) {
+        repository.save(codebaseRequirement);
+    }
+
+    @Override
     public void deleteAllByCodeBaseId(String codebaseId) {
         repository.deleteAllByCodebaseIdAndSourceType(codebaseId, dataSourceLocation);
     }

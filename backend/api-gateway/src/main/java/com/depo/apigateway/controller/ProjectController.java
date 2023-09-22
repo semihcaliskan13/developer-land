@@ -16,6 +16,7 @@ import com.depo.apigateway.mapper.UserProjectMapper;
 import com.depo.apigateway.service.ProjectService;
 import com.depo.apigateway.service.UserProjectService;
 import com.depo.apigateway.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/projects")
+@SecurityRequirement(name="bearerAuth")
 public class ProjectController {
 
     private final ProjectService projectService;

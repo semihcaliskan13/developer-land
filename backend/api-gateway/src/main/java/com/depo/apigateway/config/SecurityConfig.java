@@ -27,8 +27,12 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final AuthorityFilter authorityFilter;
 
+    public final static String[] PUBLIC_REQUEST_MATCHERS = { "/api/v1/auth/**", "/api-docs/**", "/swagger-ui/**" };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
@@ -37,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/projects/**").hasRole("SA")
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/v1/users/**").hasRole("SA")
+                        .requestMatchers(PUBLIC_REQUEST_MATCHERS).permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/v1/users/username/**").authenticated()
                         .requestMatchers("/api/v1/requirements/**").hasAnyRole("SA", "KT")
                         .requestMatchers("/api/v1/roles/**").hasRole("SA")
