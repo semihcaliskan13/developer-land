@@ -27,6 +27,7 @@ import com.depo.apigateway.service.UserAuthorityService;
 import com.depo.apigateway.service.UserCodeBaseService;
 import com.depo.apigateway.service.UserRoleService;
 import com.depo.apigateway.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +47,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@SecurityRequirement(name="bearerAuth")
 public class UserController {
 
     private final UserService userService;

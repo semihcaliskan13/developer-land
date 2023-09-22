@@ -61,4 +61,22 @@ public class AuthorityFilter extends OncePerRequestFilter {
         }
 
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request)
+            throws ServletException {
+        //String path = request.getRequestURI();
+        //return "/health".equals(path);
+
+        String path = ((HttpServletRequest) request).getRequestURI();
+        String[] allowedPaths = SecurityConfig.PUBLIC_REQUEST_MATCHERS;
+        for (var allowedPath : allowedPaths) {
+            allowedPath = allowedPath.replace("/*", "");
+            allowedPath = allowedPath.replace("/**", "");
+            if (path.contains(allowedPath)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

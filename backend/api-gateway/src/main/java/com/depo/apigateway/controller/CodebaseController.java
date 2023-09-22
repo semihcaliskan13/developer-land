@@ -38,6 +38,7 @@ import com.depo.apigateway.service.UserCodeBaseService;
 import com.depo.apigateway.service.UserService;
 import com.depo.apigateway.util.RequirementAccountIdGenerator;
 import com.depo.apigateway.util.RequirementScriptIdGenerator;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,6 +61,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/codebases")
+@SecurityRequirement(name="bearerAuth")
 public class CodebaseController {
 
     private final CodebaseService codebaseService;
